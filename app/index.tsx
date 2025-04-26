@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
-import MarkdownViewerScreen from '@/components/MarkdownViewerScreen';
+import { StyleSheet } from 'react-native';
+import MainLayout from '@/components/MainLayout';
 import { useSessionStore } from '@/store/sessionStore';
 import { loadSampleMarkdown } from '@/utils/loadSampleMarkdown';
 
-export default function MarkdownScreen() {
+export default function IndexScreen() {
   const { loadSessionFromStorage } = useSessionStore();
 
   // Load session data when the app starts
@@ -28,12 +28,7 @@ export default function MarkdownScreen() {
     initApp();
   }, []);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#121212" />
-      <MarkdownViewerScreen />
-    </SafeAreaView>
-  );
+  return <MainLayout />;
 }
 
 const styles = StyleSheet.create({
