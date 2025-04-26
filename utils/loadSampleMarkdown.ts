@@ -7,15 +7,70 @@ import { useSessionStore } from '@/store/sessionStore';
  */
 export const loadSampleMarkdown = async (): Promise<string | null> => {
   try {
-    // Instead of loading from an asset, we'll just return a hardcoded sample
-    return SAMPLE_MARKDOWN;
+    // Try to load the test markdown file from assets
+    const fileUri = FileSystem.documentDirectory + 'test-markdown.md';
+    
+    // Check if the file exists
+    const fileInfo = await FileSystem.getInfoAsync(fileUri);
+    
+    if (fileInfo.exists) {
+      // If the file exists, read it
+      const content = await FileSystem.readAsStringAsync(fileUri);
+      return content;
+    }
+    
+    // If the file doesn't exist, copy our test file to the document directory
+    try {
+      // First, write the test markdown content to the document directory
+      await FileSystem.writeAsStringAsync(fileUri, TEST_MARKDOWN);
+      return TEST_MARKDOWN;
+    } catch (writeError) {
+      console.error('Failed to write test markdown file:', writeError);
+      // Fall back to the hardcoded sample
+      return SAMPLE_MARKDOWN;
+    }
   } catch (error) {
     console.error('Failed to load sample markdown:', error);
-    return null;
+    // Fall back to the hardcoded sample
+    return SAMPLE_MARKDOWN;
   }
 };
 
-// Sample markdown content as a string
+// Test markdown content as a string (simpler version for testing text selection)
+const TEST_MARKDOWN = `# Test Markdown File for Highlighting
+
+This is a sample markdown file to test the text highlighting feature.
+
+## Try selecting this heading
+
+You should be able to select this text and see the "Ask Copilot" popup appear near your selection.
+
+### Code Example
+
+\`\`\`javascript
+// This is a JavaScript code block
+function testFunction() {
+  console.log("Hello world!");
+  return true;
+}
+\`\`\`
+
+## Lists
+
+- Item 1: Try selecting this list item
+- Item 2: The selection should work here too
+- Item 3: You can select multiple items at once
+
+## Quotes
+
+> This is a blockquote that you should be able to select.
+> Try selecting multiple lines within the quote.
+
+## Final paragraph
+
+This is the last paragraph in the test file. You should be able to select any text in this document and see the "Ask Copilot" popup appear near your selection.`;
+
+// Original sample markdown content as a string
 const SAMPLE_MARKDOWN = `# Session: Developer Copilot
 
 Welcome to Session, your markdown-based developer copilot!
