@@ -1,6 +1,6 @@
-# Mosaic - AI Chat Application 🤖💬
+# Session - AI Chat Application 🤖💬
 
-Mosaic is a powerful AI chat application built with React Native and Expo, featuring a modern interface and seamless conversation management. Interact with GPT-4o Mini through an intuitive chat interface and manage multiple conversations with ease.
+Session is a powerful AI chat application built with React Native and Expo, featuring a modern interface and seamless conversation management. Interact with GPT-4o Mini through an intuitive chat interface and manage multiple conversations with ease.
 
 ## ✨ Features
 
