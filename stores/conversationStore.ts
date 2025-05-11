@@ -199,10 +199,45 @@ export const useConversationStore = create<ConversationState>()(
   )
 );
 
+// Debug function to create sample conversations for testing
+export const createSampleConversations = () => {
+  const store = useConversationStore.getState();
+  
+  // Create a sample regular conversation
+  const conversationId = store.createNewConversation('conversation');
+  store.addMessageToConversation(conversationId, {
+    role: 'user',
+    content: 'Hello, can you help me with React Native?'
+  });
+  store.addMessageToConversation(conversationId, {
+    role: 'assistant',
+    content: 'Of course! I would be happy to help with React Native. What specific aspect are you interested in?'
+  });
+  
+  // Create a sample question from markdown
+  const questionId = store.createNewQuestionConversation('This is sample selected text from a markdown document that the user might have questions about.');
+  store.addMessageToConversation(questionId, {
+    role: 'user',
+    content: 'What does this text mean?'
+  });
+  store.addMessageToConversation(questionId, {
+    role: 'assistant',
+    content: 'This appears to be a sample text that demonstrates how the text selection feature works in the markdown viewer.'
+  });
+  
+  console.log('Created sample conversations for testing');
+  return { conversationId, questionId };
+};
+
 // Initialize: Ensure there's at least one conversation when the app loads
 const initialState = useConversationStore.getState();
 if (Object.keys(initialState.conversations).length === 0) {
+  // Create a default conversation
   initialState.createNewConversation('conversation');
+  
+  // Create sample conversations for testing
+  createSampleConversations();
+  console.log('Created sample conversations during initialization');
 } else {
   // Update any existing conversations to include the type field if missing
   const updatedConversations = { ...initialState.conversations };
